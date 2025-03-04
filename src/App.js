@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ListMovie from "./compents/ListMovie";
 import Filter from "./compents/Filter";
+import DetailMovie from "./compents/DetailMovie";
 import "./App.css";
 import url from './compents/assets/img.jpg';
 import path from './compents/assets/image.jpg';
@@ -13,14 +14,14 @@ function App() {
       description: "A mind-bending thriller.",
       URL:url,
       note: 4.8,
-      
+      trailerURL: "https://www.youtube.com/embed/YoHD9XEInc0" 
     },
     {
       title: "Breaking Bad",
       description: "A high school teacher turned drug kingpin.",
       URL:path,
       note: 4.9,
-     
+     trailerURL: "https://www.youtube.com/embed/HhesaQXLuRY"
     },
     {
       title: "Interstellar",
@@ -29,6 +30,7 @@ function App() {
       note: 8.6,
     },
   ]);
+
 
   const [filter, setFilter] = useState({ title: "", note: 0 });
 
@@ -47,11 +49,23 @@ function App() {
   );
 
   return (
-    <div className="app-container">
-      <h1>🎥 Ma Collection de Films</h1>
-      <Filter filter={filter} onFilterChange={handleFilterChange} onAddMovie={addMovie} />
-      <ListMovie movies={filteredMovies} />
-    </div>
+    <Router>
+      <div className="app-container">
+        <h1>🎥 Ma Collection de Films</h1>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <Filter filter={filter} onFilterChange={handleFilterChange} onAddMovie={addMovie} />
+                <ListMovie movies={filteredMovies} />
+              </>
+            }
+          />
+          <Route path="/movie/:title" element={<DetailMovie movies={movies} />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
